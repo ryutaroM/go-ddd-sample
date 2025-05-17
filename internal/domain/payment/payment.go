@@ -33,11 +33,12 @@ func (q Quantity) validate() error {
 	return nil
 }
 
+type RefCustomerID string
 type Payment struct {
 	ID         PaymentID
 	Amount     Amount
 	Quantity   Quantity
-	CustomerID string //一旦プリミティブ
+	CustomerID RefCustomerID
 }
 
 func (p *Payment) validate() error {
@@ -53,7 +54,7 @@ func (p *Payment) validate() error {
 	return nil
 }
 
-func NewPayment(id PaymentID, amount Amount, quantity Quantity, customerID string) *Payment {
+func NewPayment(id PaymentID, amount Amount, quantity Quantity, customerID RefCustomerID) *Payment {
 	return &Payment{
 		ID:         id,
 		Amount:     amount,

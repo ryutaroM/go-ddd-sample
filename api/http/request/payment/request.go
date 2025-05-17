@@ -1,7 +1,7 @@
 package payment
 
 import (
-	"ddd-structure/internal/domain/payment"
+	"ddd-structure/internal/usecase/payment/command"
 	"encoding/json"
 	"io"
 )
@@ -28,7 +28,11 @@ func NewCreatePaymentRequest(body io.ReadCloser) (*CreatePaymentRequest, error) 
 	return &req, nil
 }
 
-// ToDomain はリクエストからドメインモデルを生成します
-func (r *CreatePaymentRequest) ToDomain() *payment.Payment {
-	return payment.NewPayment(payment.PaymentID(r.ID), payment.Amount(r.Amount), payment.Quantity(r.Quantity), r.CustomerID)
+func (r *CreatePaymentRequest) ToCommand()(*command.CreatePaymentCommand,error){
+	return &command.CreatePaymentCommand{
+		PaymentID:  r.ID,
+		Amount:     r.Amount,
+		Quantity:   r.Quantity,
+		CustomerID: r.CustomerID,
+	}, nil
 }

@@ -3,8 +3,8 @@ package handler
 import (
 	request "ddd-structure/api/http/request/payment"
 	"ddd-structure/api/http/response"
-	paymentdomain "ddd-structure/internal/domain/payment"
 	"ddd-structure/internal/usecase/payment"
+	"ddd-structure/internal/usecase/payment/query"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -29,7 +29,10 @@ func (h *PaymentHandler) Register(r chi.Router) {
 
 func (h *PaymentHandler) FindPayment(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
-	payment, err := h.service.Find(r.Context(), paymentdomain.PaymentID(id))
+
+	q := query.NewFindPaymentQuery(id, "")
+
+	payment, err := h.service.Find(r.Context(), q)
 	if err != nil {
 		response.WriteError(w, http.StatusNotFound, err)
 		return
@@ -41,13 +44,17 @@ func (h *PaymentHandler) FindPayment(w http.ResponseWriter, r *http.Request) {
 func (h *PaymentHandler) CreatePayment(w http.ResponseWriter, r *http.Request) {
 	req, err := request.NewCreatePaymentRequest(r.Body)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		response.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 
-	payment := req.ToDomain()
+	cmd, err := req.ToCommand()
+	if err != nil {
+		response.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
 
-	if payment, err := h.service.Create(r.Context(), payment); err != nil {
+	if payment, err := h.service.Create(r.Context(), cmd); err != nil {
 		response.WriteError(w, http.StatusInternalServerError, err)
 		return
 	} else {

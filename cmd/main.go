@@ -2,6 +2,7 @@ package main
 
 import (
 	handler "ddd-structure/api/http/handler/payment"
+	"ddd-structure/internal/acl/payment/user"
 	"ddd-structure/internal/infrastructure/persistence"
 	"ddd-structure/internal/usecase/payment"
 	"fmt"
@@ -13,7 +14,9 @@ import (
 func main() {
 	paymentRepo := persistence.NewPaymentRepository()
 
-	paymentService := payment.NewPaymentService(paymentRepo)
+	userAcl := user.NewAdapter()
+
+	paymentService := payment.NewPaymentService(paymentRepo, userAcl)
 
 	paymentHandler := handler.NewPaymentHandler(paymentService)
 

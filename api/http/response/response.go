@@ -6,6 +6,7 @@ import (
 )
 
 func WriteResponse(w http.ResponseWriter, statusCode int, data interface{}) {
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 	if data != nil {
 		json.NewEncoder(w).Encode(data)
@@ -13,5 +14,5 @@ func WriteResponse(w http.ResponseWriter, statusCode int, data interface{}) {
 }
 
 func WriteError(w http.ResponseWriter, statusCode int, err error) {
-	http.Error(w, err.Error(), http.StatusInternalServerError)
+	http.Error(w, err.Error(), statusCode)
 }

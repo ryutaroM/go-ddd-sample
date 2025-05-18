@@ -11,7 +11,7 @@ func NewAdapter() Service {
 	return &Adapter{}
 }
 
-func (a *Adapter) ToRefCustomerID(userID user.UserID) (payment.RefCustomerID, error) {
-	ref := payment.RefCustomerID(userID.String())
+func (a *Adapter) ToCustomerID(userID user.UserID) (payment.CustomerID, error) {
+	ref := payment.CustomerID(userID.String())
 	return ref, nil
 }

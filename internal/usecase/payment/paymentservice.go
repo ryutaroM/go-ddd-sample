@@ -4,6 +4,7 @@ import (
 	"context"
 	useracl "ddd-structure/internal/acl/payment/user"
 	"ddd-structure/internal/domain/payment"
+	"ddd-structure/internal/domain/user"
 	"ddd-structure/internal/usecase/payment/command"
 	"ddd-structure/internal/usecase/payment/query"
 )
@@ -34,11 +35,19 @@ func (s *paymentService) Find(ctx context.Context, query *query.FindPaymentQuery
 }
 
 func (s *paymentService) Create(ctx context.Context, cmd *command.CreatePaymentCommand) (*payment.Payment, error) {
+	userID := user.UserID(cmd.UserID)
+
+	// userID -> customerID
+	customerID, err := s.userAdapter.ToCustomerID(userID)
+	if err != nil {
+		return nil, err
+	}
+
 	p := payment.NewPayment(
 		payment.PaymentID(cmd.PaymentID),
 		payment.Amount(cmd.Amount),
 		payment.Quantity(cmd.Quantity),
-		payment.RefCustomerID(cmd.CustomerID),
+		customerID,
 	)
 
 	if payment, err := s.repo.Save(p); err != nil {

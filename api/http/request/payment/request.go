@@ -7,10 +7,10 @@ import (
 )
 
 type CreatePaymentRequest struct {
-	ID         string  `json:"id"`
-	Amount     float64 `json:"amount"`
-	Quantity   int64   `json:"quantity"`
-	CustomerID string  `json:"customer_id"`
+	ID       string  `json:"id"`
+	Amount   float64 `json:"amount"`
+	Quantity int64   `json:"quantity"`
+	UserID   string  `json:"user_id"`
 }
 
 // UnmarshalJSON
@@ -28,11 +28,11 @@ func NewCreatePaymentRequest(body io.ReadCloser) (*CreatePaymentRequest, error) 
 	return &req, nil
 }
 
-func (r *CreatePaymentRequest) ToCommand()(*command.CreatePaymentCommand,error){
+func (r *CreatePaymentRequest) ToCommand() (*command.CreatePaymentCommand, error) {
 	return &command.CreatePaymentCommand{
-		PaymentID:  r.ID,
-		Amount:     r.Amount,
-		Quantity:   r.Quantity,
-		CustomerID: r.CustomerID,
+		PaymentID: r.ID,
+		Amount:    r.Amount,
+		Quantity:  r.Quantity,
+		UserID:    r.UserID,
 	}, nil
 }

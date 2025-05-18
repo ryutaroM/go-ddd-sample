@@ -1,8 +1,9 @@
 package handler
 
 import (
+	response "ddd-structure/api/http"
 	request "ddd-structure/api/http/request/payment"
-	"ddd-structure/api/http/response"
+	paymentresponse "ddd-structure/api/http/response/payment"
 	"ddd-structure/internal/usecase/payment"
 	"ddd-structure/internal/usecase/payment/query"
 	"net/http"
@@ -38,7 +39,9 @@ func (h *PaymentHandler) FindPayment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response.WriteResponse(w, http.StatusOK, payment)
+	res := paymentresponse.ToResponse(payment)
+
+	response.WriteResponse(w, http.StatusOK, res)
 }
 
 func (h *PaymentHandler) CreatePayment(w http.ResponseWriter, r *http.Request) {
@@ -58,6 +61,7 @@ func (h *PaymentHandler) CreatePayment(w http.ResponseWriter, r *http.Request) {
 		response.WriteError(w, http.StatusInternalServerError, err)
 		return
 	} else {
-		response.WriteResponse(w, http.StatusCreated, payment)
+		res := paymentresponse.ToResponse(payment)
+		response.WriteResponse(w, http.StatusCreated, res)
 	}
 }

@@ -16,15 +16,15 @@ func (r *PaymentRepository) FindByID(id payment.PaymentID) (*payment.Payment, er
 		id,
 		payment.Amount(1000),
 		payment.Quantity(1),
-		"customer_id",
+		"user_id_1",
 	), nil
 }
 
 func (r *PaymentRepository) Save(p *payment.Payment) (*payment.Payment, error) {
 	return &payment.Payment{ // mocking the save operation
-		ID:         p.ID,
-		Amount:     p.Amount,
-		Quantity:   p.Quantity,
-		CustomerID: p.CustomerID,
+		ID:        p.ID,
+		Amount:    p.Amount,
+		Quantity:  p.Quantity,
+		RefUserID: p.RefUserID,
 	}, nil
 }

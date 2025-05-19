@@ -33,12 +33,12 @@ func (q Quantity) validate() error {
 	return nil
 }
 
-type CustomerID string
+type RefUserID string
 type Payment struct {
-	ID         PaymentID
-	Amount     Amount
-	Quantity   Quantity
-	CustomerID CustomerID
+	ID        PaymentID
+	Amount    Amount
+	Quantity  Quantity
+	RefUserID RefUserID
 }
 
 func (p *Payment) validate() error {
@@ -54,11 +54,11 @@ func (p *Payment) validate() error {
 	return nil
 }
 
-func NewPayment(id PaymentID, amount Amount, quantity Quantity, customerID CustomerID) *Payment {
+func NewPayment(id PaymentID, amount Amount, quantity Quantity, refUserID RefUserID) *Payment {
 	return &Payment{
-		ID:         id,
-		Amount:     amount,
-		Quantity:   quantity,
-		CustomerID: customerID,
+		ID:        id,
+		Amount:    amount,
+		Quantity:  quantity,
+		RefUserID: refUserID,
 	}
 }

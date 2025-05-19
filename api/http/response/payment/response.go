@@ -15,7 +15,7 @@ func ToResponse(p *payment.Payment) *PaymentResponse {
 		ID:       string(p.ID),
 		Amount:   float64(p.Amount),
 		Quantity: int64(p.Quantity),
-		UserID:   string(p.CustomerID),
+		UserID:   string(p.RefUserID),
 	}
 }
 

@@ -1,13 +1,13 @@
 package query
 
 type FindPaymentQuery struct {
-	PaymentID  string `json:"payment_id"`
-	CustomerID string `json:"customer_id"`
+	PaymentID string `json:"payment_id"`
+	UserID    string `json:"user_id"`
 }
 
-func NewFindPaymentQuery(paymentID, customerID string) *FindPaymentQuery {
+func NewFindPaymentQuery(paymentID, userID string) *FindPaymentQuery {
 	return &FindPaymentQuery{
-		PaymentID:  paymentID,
-		CustomerID: customerID,
+		PaymentID: paymentID,
+		UserID:    userID,
 	}
 }

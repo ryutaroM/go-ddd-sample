@@ -37,8 +37,8 @@ func (s *paymentService) Find(ctx context.Context, query *query.FindPaymentQuery
 func (s *paymentService) Create(ctx context.Context, cmd *command.CreatePaymentCommand) (*payment.Payment, error) {
 	userID := user.UserID(cmd.UserID)
 
-	// userID -> customerID
-	customerID, err := s.userAdapter.ToCustomerID(userID)
+	// userID -> refUserID
+	refUserID, err := s.userAdapter.ToRefUserID(userID)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (s *paymentService) Create(ctx context.Context, cmd *command.CreatePaymentC
 		payment.PaymentID(cmd.PaymentID),
 		payment.Amount(cmd.Amount),
 		payment.Quantity(cmd.Quantity),
-		customerID,
+		refUserID,
 	)
 
 	if payment, err := s.repo.Save(p); err != nil {

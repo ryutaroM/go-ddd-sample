@@ -6,5 +6,5 @@ import (
 )
 
 type Service interface {
-	ToCustomerID(userID user.UserID) (payment.CustomerID, error)
+	ToRefUserID(userID user.UserID) (payment.RefUserID, error)
 }
